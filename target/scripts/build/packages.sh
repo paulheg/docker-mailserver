@@ -103,7 +103,7 @@ function _install_dovecot() {
     _log 'trace' 'Using Dovecot community repository'
     curl https://repo.dovecot.org/DOVECOT-REPO-GPG | gpg --import
     gpg --export ED409DA1 > /etc/apt/trusted.gpg.d/dovecot.gpg
-    echo "deb https://repo.dovecot.org/ce-2.3-latest/debian/bullseye bullseye main" > /etc/apt/sources.list.d/dovecot.list
+    echo "deb https://repo.dovecot.org/ce-2.3-latest/debian/${DEBIAN_CODENAME} ${DEBIAN_CODENAME} main" >/etc/apt/sources.list.d/dovecot.list
 
     _log 'trace' 'Updating Dovecot package signatures'
     apt-get "${QUIET}" update

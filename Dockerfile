@@ -9,6 +9,7 @@ ARG LOG_LEVEL=trace
 
 FROM docker.io/debian:12-slim AS stage-base
 
+ARG DEBIAN_CODENAME=bookworm
 ARG DEBIAN_FRONTEND
 ARG DOVECOT_COMMUNITY_REPO
 ARG LOG_LEVEL
@@ -29,8 +30,6 @@ COPY target/scripts/build/packages.sh /build/
 COPY target/scripts/helpers/log.sh /usr/local/bin/helpers/log.sh
 
 RUN /bin/bash /build/packages.sh && rm -r /build
-
-
 
 # -----------------------------------------------
 # --- Compile deb packages ----------------------
