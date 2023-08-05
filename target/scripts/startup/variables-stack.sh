@@ -143,8 +143,18 @@ function __environment_variables_general_setup() {
 function _environment_variables_ldap() {
   _log 'debug' 'Setting LDAP-related environment variables now'
 
+  if [[ ! -v LDAP_BIND_PW_FILE ]]; then
+    # not set
+    VARS[LDAP_BIND_PW]="${LDAP_BIND_PW:=}"
+  elif [[ -z "$LDAP_BIND_PW_FILE" ]]; then
+    _log 'warn' 'LDAP_BIND_PW_FILE is set but empty'
+  else
+    # is set and not empty
+    # try to read the value then
+    VARS[LDAP_BIND_PW]=$(<${LDAP_BIND_PW_FILE})
+  fi
+
   VARS[LDAP_BIND_DN]="${LDAP_BIND_DN:=}"
-  VARS[LDAP_BIND_PW]="${LDAP_BIND_PW:=}"
   VARS[LDAP_SEARCH_BASE]="${LDAP_SEARCH_BASE:=}"
   VARS[LDAP_SERVER_HOST]="${LDAP_SERVER_HOST:=}"
   VARS[LDAP_START_TLS]="${LDAP_START_TLS:=no}"
