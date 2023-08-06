@@ -143,15 +143,17 @@ function __environment_variables_general_setup() {
 function _environment_variables_ldap() {
   _log 'debug' 'Setting LDAP-related environment variables now'
 
+
+  # passwords using the file will be prioritised
   if [[ ! -v LDAP_BIND_PW_FILE ]]; then
-    # not set
+    # not set, use default
     VARS[LDAP_BIND_PW]="${LDAP_BIND_PW:=}"
   elif [[ -z "$LDAP_BIND_PW_FILE" ]]; then
     _log 'warn' 'LDAP_BIND_PW_FILE is set but empty'
   else
     # is set and not empty
-    # try to read the value then
-    VARS[LDAP_BIND_PW]=$(<${LDAP_BIND_PW_FILE})
+    # try to read the value from the file then
+    VARS[LDAP_BIND_PW]=$(<"${LDAP_BIND_PW_FILE}")
   fi
 
   VARS[LDAP_BIND_DN]="${LDAP_BIND_DN:=}"
